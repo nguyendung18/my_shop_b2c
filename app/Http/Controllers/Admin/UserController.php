@@ -41,8 +41,7 @@ class UserController extends Controller implements ICrud
         } catch (\Exception $exception) {
             return redirect()->back()->with('error', "Add failed");
         }
-
-
+;
         //chuyển hướng về trang  danh sách
         return redirect()->route('admin.user.list')->with('success', 'Add successfully');
     }

@@ -24,9 +24,7 @@
                             <tr>
                                 <td>{{$item->id}}</td>
                                 <td>{{$item->email}}</td>
-                                <td>
-                                    {{$item->phone}}
-                                </td>
+                                <td>{{$item->phone}}</td>
                                 <td>{{$item->full_name}}</td>
                                 <td>
                                     <a class="btn btn-warning" href="{{route('admin.user.edit',['id'=>$item->id])}}">Edit</a>
@@ -43,8 +41,18 @@
                 <!-- /.card-body -->
                 <div class="card-footer clearfix">
                     {{$list->links()}}
+
                 </div>
             </div>
         </div>
     </div>
+
+
+@endsection
+@section('bread-crumb')
+    <ol class="breadcrumb float-sm-right">
+        <li class="breadcrumb-item"><a href="#">Admin</a></li>
+        <li class="breadcrumb-item"><a href="{{route('admin.user.list')}}">User</a></li>
+        <li class="breadcrumb-item active">List</li>
+    </ol>
 @endsection
