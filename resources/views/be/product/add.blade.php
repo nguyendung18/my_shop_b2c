@@ -14,17 +14,17 @@
                         <div class="preview-images">
 
                         </div>
-
                         <div class="form-group">
                             <label for="exampleInputFile">Images</label>
                             <div class="input-group">
                                 <div class="custom-file">
-                                    <input type="file" name="images" multiple class="images-input
-                                    custom-file-input" id="exampleInputFile">
+                                    <input type="file" name="images" multiple class="images-input custom-file-input"
+                                           id="exampleInputFile">
                                     <label class="custom-file-label" for="exampleInputFile">Choose Image</label>
                                 </div>
                             </div>
                         </div>
+
 
                         <div class="form-group">
                             <label>Name</label>
@@ -35,23 +35,22 @@
                             <label>Category</label>
                             <select name="category_id" class="form-control">
                                 <option value="0">All</option>
-                                @foreach($category as $cat)
+                                @foreach($categories as $cat)
                                     <option value="{{$cat->id}}">{{$cat->name}}</option>
-                                    @endforeach
+                                @endforeach
                             </select>
                         </div>
 
                         <div class="form-group">
                             <label>Content</label>
-                            <textarea name="content" class="form-control" placeholder="Enter content">
-                            </textarea>
+                            <textarea name="content" class="form-control" placeholder="Enter Content"></textarea>
                         </div>
 
                         <div class="form-group">
                             <label>Price</label>
-                            <input type="number" name="pricec" class="form-control"
-                                   placeholder="Enter price">
+                            <input type="number" name="price" class="form-control" placeholder="Enter Price">
                         </div>
+
                         <div>
                             <label>Brand</label>
                             <select name="brand_id" class="form-control">
@@ -69,20 +68,24 @@
 
                         <div class="form-group">
                             <label>Meta Keyword</label>
-                            <input type="text" name="meta_keyword" class="form-control"
-                                   placeholder="Enter meta keyword">
+                            <input type="text" name="meta_keyword" class="form-control" placeholder="Enter name">
                         </div>
 
                         <div class="form-group">
                             <label>Meta Content</label>
                             <input type="text" name="meta_content" class="form-control"
-                                   placeholder="Enter meta content">
+                                   placeholder="Enter Meta Content">
+                        </div>
+
+                        <div class="form-group">
+                            <label>Meta Content</label>
+                            <input type="text" name="meta_description" class="form-control"
+                                   placeholder="Enter Meta Description">
                         </div>
 
                         <div class="form-group">
                             <label>Short Description</label>
-                            <input type="text" name="short_description" class="form-control"
-                                   placeholder="Enter short description">
+                            <textarea name="short_description" class="form-control"></textarea>
                         </div>
 
                     </div>
@@ -96,6 +99,7 @@
         </div>
 
     </div>
+
 @endsection
 
 @section('bread-crumb')
@@ -108,35 +112,62 @@
 
 @section('script')
     <style>
-        .preview-images{
+        .preview-images {
             display: flex;
             justify-content: flex-start;
-            gap: 5px;
+            gap: 5px
         }
-
-        .preview-images img{
+        .preview-images img {
             width: 150px;
             height: 100px;
         }
+        .remove-img {
+            position: absolute;
+            right: 5px;
+            top: 5px;
+            border: none;
+            outline: none;
+            width: 20px;
+            height: 20px;
+            border-radius: 999px;
+            background: #ffffff;
+            display: flex;
+            justify-content: center;
+            items-align: center;
+        }
     </style>
     <script>
-        const imagesPreview = function (input,placeToInsertImagePreview) {
+        let filesAmount = [];
+        function removeImage(i) {
+            const fileListArr = Array.from(filesAmount);
+            fileListArr.splice(i);
+            filesAmount = fileListArr;
+            $('.preview-images').find('.img-item').eq(i).remove();
+            $('.images-input').files = fileListArr;
+        }
+        const imagesPreview = function (input, placeToInsertImagePreview) {
             if (input.files) {
-                var filesAmount = input.files.length;
-
-                for(i=0;i<filesAmount;i++) {
-                    var reader = new FileReader();
-
+                filesAmount = input.files;
+                $('.preview-images').empty();
+                for (let i = 0; i < filesAmount.length; i++) {
+                    const reader = new FileReader();
                     reader.onload = function (event) {
-                        $($.parseHTML('<img>')).attr('src',event.target.result).appendTo(placeToInsertImagePreview);
+                        const node = document.createElement('span');
+                        node.addEventListener('click', () => {
+                            removeImage(i);
+                        })
+                        node.style.position = 'relative';
+                        node.classList.add('img-item');
+                        node.innerHTML = `<img src="${event.target.result}" alt="Image" style="width:150px;height:100px;"><span class="remove-img">
+<div>x</div></span>`;
+                        $(placeToInsertImagePreview).append(node);
                     }
                     reader.readAsDataURL(input.files[i]);
                 }
             }
         };
-
-        $('.images-input').on('change',function () {
-            imagesPreview(this,'.preview-images');
+        $('.images-input').on('change', function () {
+            imagesPreview(this, '.preview-images');
         });
     </script>
-    @endsection
+@endsection

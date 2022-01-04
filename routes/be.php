@@ -45,4 +45,6 @@ Route::prefix('/admin')->group(function () {
         Route::get('/delete/{id}', [\App\Http\Controllers\Admin\ProductController::class, 'delete'])
             ->name('admin.product.delete');
     });
+
+
 });

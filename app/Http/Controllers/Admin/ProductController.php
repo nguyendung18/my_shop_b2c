@@ -34,7 +34,6 @@ class ProductController extends Controller implements ICrud
         } catch (\Exception $exception) {
             return redirect()->back()->with('error', "Add failed");
         }
-        ;
         //chuyển hướng về trang  danh sách
         return redirect()->route('admin.product.list')->with('success', 'Add successfully');
     }
@@ -74,5 +73,4 @@ class ProductController extends Controller implements ICrud
         }
         return redirect()->back()->with('success', "Delete successfully");
     }
-
 }
