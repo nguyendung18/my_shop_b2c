@@ -4,31 +4,26 @@
         <div class="col-md-12">
             <div class="card card-primary">
                 <div class="card-header">
-                    <h3 class="card-title">Add User</h3>
+                    <h3 class="card-title">Add Variant Value</h3>
                 </div>
                 <!-- /.card-header -->
                 <!-- form start -->
-                <form method="post" action="{{route('admin.user.doAdd')}}">
+                <form method="post" action="{{route('admin.variant_value.doAdd')}}">
                     @csrf
                     <div class="card-body">
                         <div class="form-group">
-                            <label>Email address</label>
-                            <input type="email" name="email" class="form-control" placeholder="Enter email">
+                            <label>Variant Value</label>
+                            <input type="text" name="variant_value" class="form-control"
+                                   placeholder="Enter Value">
                         </div>
 
                         <div class="form-group">
-                            <label>Full Name</label>
-                            <input type="text" name="full_name" class="form-control" placeholder="Full Name">
-                        </div>
-
-                        <div class="form-group">
-                            <label>Phone</label>
-                            <input type="text" name="phone" class="form-control" placeholder="Phone">
-                        </div>
-
-                        <div class="form-group">
-                            <label>Password</label>
-                            <input type="password" name="password" class="form-control" placeholder="Password">
+                            <label>Variant</label>
+                            <select class="form-control" name="variant_id">
+                                @foreach($variants as $variant)
+                                    <option value="{{$variant->id}}">{{$variant->name}}</option>
+                                @endforeach
+                            </select>
                         </div>
                     </div>
                     <!-- /.card-body -->
@@ -46,11 +41,11 @@
 @section('bread-crumb')
     <ol class="breadcrumb float-sm-right">
         <li class="breadcrumb-item"><a href="#">Admin</a></li>
-        <li class="breadcrumb-item"><a href="{{route('admin.user.list')}}">User</a></li>
+        <li class="breadcrumb-item"><a href="{{route('admin.variant_value.list')}}">Variant Value</a></li>
         <li class="breadcrumb-item active">Add</li>
     </ol>
 @endsection
 
 @section('heading')
-    User
+    Variant Value
 @endsection

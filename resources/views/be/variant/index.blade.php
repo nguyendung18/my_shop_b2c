@@ -13,6 +13,7 @@
                         <tr>
                             <th style="width: 10px">#</th>
                             <th>Name</th>
+                            <th>Variant Value</th>
                         </tr>
                         </thead>
                         <tbody>
@@ -22,10 +23,15 @@
                                 <td>{{$item->id}}</td>
                                 <td>{{$item->name}}</td>
                                 <td>
+                                    @foreach($item->variantValues as $variantValue)
+                                        <span class="badge badge-primary">{{$variantValue->value}}</span>
+                                    @endforeach
+                                </td>
+                                <td>
                                     <a class="btn btn-warning"
-                                       href="{{route('admin.category.edit',['id'=>$item->id])}}">Edit</a>
+                                       href="{{route('admin.variant.edit',['id'=>$item->id])}}">Edit</a>
                                     <a class="btn btn-danger"
-                                       href="{{route('admin.category.delete',['id'=>$item->id])}}"
+                                       href="{{route('admin.variant.delete',['id'=>$item->id])}}"
                                        onclick="return confirm('Are you you want to delete this ?')" href="">Delete</a>
                                 </td>
                             </tr>
@@ -44,12 +50,11 @@
 @section('bread-crumb')
     <ol class="breadcrumb float-sm-right">
         <li class="breadcrumb-item"><a href="#">Admin</a></li>
-        <li class="breadcrumb-item"><a href="{{route('admin.category.list')}}">Category</a></li>
+        <li class="breadcrumb-item"><a href="{{route('admin.variant.list')}}">Variant</a></li>
         <li class="breadcrumb-item active">List</li>
     </ol>
 @endsection
 
-
 @section('heading')
-    Category
+    Variant
 @endsection

@@ -4,7 +4,7 @@
         <div class="col-md-12">
             <div class="card card-primary">
                 <div class="card-header">
-                    <h3 class="card-title">Edit Category</h3>
+                    <h3 class="card-title">Edit User</h3>
                 </div>
                 <!-- /.card-header -->
                 <!-- form start -->
@@ -51,4 +51,7 @@
         <li class="breadcrumb-item"><a href="{{route('admin.user.list')}}">User</a></li>
         <li class="breadcrumb-item active">Edit</li>
     </ol>
+@endsection
+@section('heading')
+    User
 @endsection

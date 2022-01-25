@@ -5,9 +5,9 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Image extends Model
+class Brand extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['path', 'is_preview', 'product_id'];
+    protected $fillable = ['name', 'logo_path'];
 }

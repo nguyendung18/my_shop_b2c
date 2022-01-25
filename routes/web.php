@@ -20,3 +20,5 @@ Route::get("/be-layout",function (){
     return view("be.layout");
 });
 require_once __DIR__ . '/be.php';
+require_once __DIR__ . '/fe.php';
+
