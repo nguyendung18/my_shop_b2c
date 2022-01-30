@@ -255,3 +255,4 @@ class ProductController extends Controller implements ICrud
         return view('be.product.index', compact('list'));
     }
 }
+

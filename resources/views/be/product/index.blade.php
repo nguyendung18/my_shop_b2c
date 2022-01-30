@@ -43,12 +43,13 @@
                                              style="width: 100px; height: 100px">
                                     @else
                                         <img src="https://via.placeholder.com/150
+
 C/O https://placeholder.com/"
                                              style="width: 100px; height: 100px">
                                     @endif
                                 </td>
                                 <td>{{$item->name}}</td>
-                                <td>{{$item->price}}</td>
+                                <td>{{\Akaunting\Money\Money::USD($item->price,true)}}</td>
                                 <td>
                                     <span class="badge badge-primary">
                                              @if($item->category)

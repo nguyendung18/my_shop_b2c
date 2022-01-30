@@ -2,9 +2,10 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Http\Controllers\Controller;
 use App\Models\Category;
+use App\Models\User;
 use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Hash;
 
 class CategoriesController extends Controller implements ICrud
@@ -34,7 +35,6 @@ class CategoriesController extends Controller implements ICrud
         } catch (\Exception $exception) {
             return redirect()->back()->with('error', "Add failed");
         }
-        ;
         //chuyển hướng về trang  danh sách
         return redirect()->route('admin.category.list')->with('success', 'Add successfully');
     }
@@ -76,3 +76,4 @@ class CategoriesController extends Controller implements ICrud
     }
 
 }
+

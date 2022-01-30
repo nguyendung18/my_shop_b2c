@@ -186,10 +186,12 @@
             justify-content: flex-start;
             gap: 5px
         }
+
         .preview-images img {
             width: 150px;
             height: 100px;
         }
+
         .remove-img {
             position: absolute;
             right: 5px;
@@ -204,13 +206,16 @@
             justify-content: center;
             items-align: center;
         }
+
         .txt-content {
             height: 500px;
         }
     </style>
     <script src="https://cdn.tiny.cloud/1/no-api-key/tinymce/5/tinymce.min.js" referrerpolicy="origin"></script>
     <script>
+
         let filesAmount = [];
+
         function removeImage(i) {
             const fileListArr = Array.from(filesAmount);
             fileListArr.splice(i);
@@ -218,12 +223,14 @@
             $('.preview-images').find('.img-item').eq(i).remove();
             $('.images-input').files = fileListArr;
         }
+
         const imagesPreview = function (input, placeToInsertImagePreview) {
             if (input.files) {
                 filesAmount = input.files;
                 $('.preview-images').empty();
                 for (let i = 0; i < filesAmount.length; i++) {
                     const reader = new FileReader();
+
                     reader.onload = function (event) {
                         const node = document.createElement('span');
                         node.addEventListener('click', () => {
@@ -239,10 +246,13 @@
                 }
             }
         };
+
         $('.images-input').on('change', function () {
             $('.saved-images').remove();
             imagesPreview(this, '.preview-images');
         });
+
+
     </script>
     <script>
         tinymce.init({
@@ -256,3 +266,4 @@
 @section('heading')
     Product
 @endsection
+

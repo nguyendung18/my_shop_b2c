@@ -27,6 +27,7 @@
                                              style="width: 100px; height: 100px">
                                     @else
                                         <img src="https://via.placeholder.com/150
+
 C/O https://placeholder.com/"
                                              style="width: 100px; height: 100px">
                                     @endif
@@ -64,3 +65,4 @@ C/O https://placeholder.com/"
 @section('heading')
     Brand
 @endsection
+

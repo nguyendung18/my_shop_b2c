@@ -39,3 +39,4 @@
 @section('heading')
     Variant
 @endsection
+
