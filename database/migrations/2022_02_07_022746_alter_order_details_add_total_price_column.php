@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateVariantValuesTable extends Migration
+class AlterOrderDetailsAddTotalPriceColumn extends Migration
 {
     /**
      * Run the migrations.
@@ -13,11 +13,10 @@ class CreateVariantValuesTable extends Migration
      */
     public function up()
     {
-        Schema::create('variant_values', function (Blueprint $table) {
-            $table->id();
-            $table->bigInteger("variant_id");
-            $table->string("values");
-            $table->timestamps();
+        //
+
+        Schema::table('order_details', function (Blueprint $table) {
+            $table->decimal('total_price')->after('price');
         });
     }
 
@@ -28,6 +27,9 @@ class CreateVariantValuesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('variant_values');
+        //
+        Schema::table('order_details', function (Blueprint $table) {
+            $table->dropColumn('total_price');
+        });
     }
 }

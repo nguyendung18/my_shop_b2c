@@ -106,7 +106,7 @@ class ProductController extends Controller implements ICrud
                 }
             }
         } catch (\Exception $exception) {
-            //dd($exception->getMessage());
+            dd($exception->getMessage());
             return redirect()->back()->with('error', "Add failed");
         }
         //chuyển hướng về trang  danh sách

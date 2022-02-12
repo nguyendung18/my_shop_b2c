@@ -53,6 +53,7 @@ class VariantValueController extends Controller implements ICrud
                 'variant_id' => $request->variant_id
             ]);
         } catch (\Exception $exception) {
+            dd($exception->getMessage());
             return redirect()->back()->with('error', "Add failed");
         }
         //chuyển hướng về trang  danh sách

@@ -62,13 +62,13 @@
     <!--NEWSETTLER FORM-->
     <div class="md:grid grid-cols-7 place-items-center p-10" style="background: #DFDFDF">
         <div class="col-span-3">
-            <h4 class="font-bold text-3xl">Đăng ký nhận bản tin</h4>
-            <p class="font-bold text-base">Đừng bỏ lỡ hàng ngàn sản phẩm và các chuwong trình siêu hấp dẫn</p>
+            <h4 class="font-bold text-3xl">KÊNH THÔNG TIN</h4>
+            <p class="font-bold text-base">Mời bạn nhập email để nhận những thông tin khuyến mại mới nhất từ DSHOP</p>
         </div>
 
         <div class="col-span-4">
             <form class="flex gap-2 items-center border-2 w-full">
-                <input type="email" class="bg-white h-16 w-48 p-2"/>
+                <input type="email" placeholder="Email của bạn" class="bg-white h-16 w-48 p-2"/>
                 <button class="uppercase text-2xl h-16 font-bold bg-yellow-300 p-2">Get News</button>
             </form>
         </div>

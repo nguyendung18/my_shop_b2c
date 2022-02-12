@@ -2,8 +2,9 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Models\Category;
+
 use App\Models\Variant;
+use http\Message;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
@@ -51,6 +52,7 @@ class VariantController extends Controller implements ICrud
                 'name' => $name
             ]);
         } catch (\Exception $exception) {
+            
             return redirect()->back()->with('error', "Add failed");
         }
         //chuyển hướng về trang  danh sách
@@ -73,3 +75,4 @@ class VariantController extends Controller implements ICrud
     }
 
 }
+

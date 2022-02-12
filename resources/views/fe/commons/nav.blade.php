@@ -27,7 +27,7 @@
         <div class="text-xl">
             <a class=" hover:bg-black hover:text-white px-4 py-5 text-black inline-block h-full" href="">
                 <i class="bi bi-heart"></i></a>
-            <a class=" hover:bg-black hover:text-white px-4 py-5  text-black inline-block h-full" href="">
+            <a href="{{route('fe.user.profile')}}" class=" hover:bg-black hover:text-white px-4 py-5  text-black inline-block h-full" href="">
                 <i class="bi bi-person"></i></a>
             <a href="{{route('fe.cart')}}" class="relative hover:bg-black hover:text-white px-4 py-5  text-black inline-block h-full" href="">
                 <i class="bi bi-cart"></i>

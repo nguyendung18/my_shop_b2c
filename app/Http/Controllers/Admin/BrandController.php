@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Models\Brand;
+use App\Models\Category;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
@@ -31,7 +32,16 @@ class BrandController extends Controller implements ICrud
     public function delete($id)
     {
         // TODO: Implement delete() method.
+        try {
+            $brand = Brand::find($id);
+            $brand->delete();
+        } catch (\Exception $exception) {
+            return redirect()->back()->with('error', "Delete failed");
+        }
+        return redirect()->back()->with('success', "Delete successfully");
     }
+
+
 
     public function doAdd(Request $request)
     {

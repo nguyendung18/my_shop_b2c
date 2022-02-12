@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class AlterVariantValuesAddSoftDelete extends Migration
+class AlterOrdersAddStatusColumn extends Migration
 {
     /**
      * Run the migrations.
@@ -14,8 +14,8 @@ class AlterVariantValuesAddSoftDelete extends Migration
     public function up()
     {
         //
-        Schema::table('variant_values', function (Blueprint $table) {
-            $table->softDeletes();
+        Schema::table('orders', function (Blueprint $table) {
+            $table->tinyInteger('status')->default(1);//1-pending, 2-processing, 3-completed, 4-cancelled
         });
     }
 
@@ -27,8 +27,8 @@ class AlterVariantValuesAddSoftDelete extends Migration
     public function down()
     {
         //
-        Schema::table('variant_values', function (Blueprint $table) {
-            $table->dropSoftDeletes();
+        Schema::table('orders', function (Blueprint $table) {
+            $table->dropColumn('status');
         });
     }
 }

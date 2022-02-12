@@ -13,51 +13,48 @@ class CartController extends Controller
 
     public function __construct()
     {
-        session_start();
+        if (session_status() === PHP_SESSION_NONE) {
+            session_start();
+        }
     }
-
 
     public function addToCart(Request $request)
     {
         $id = $request->id;
         $quantity = $request->quantity;
         //$variantValues = $request->variantValues;
-        $product = Product::find($id);
-        /*     $cart = Session::has(self::SESSION_CART) ?
-                 Session::get(self::SESSION_CART)
-                 : [];*/
+        $variantInfos = $request->variant_infos;
+        if ($variantInfos != null) {
+            $variantInfos = $this->removeVariantAssocKey($variantInfos);
+        }
+        //$variantInfos = $tmpVariantsInfo;
+        //dd($variantInfos);
 
-        /* $cart = Session::has(self::SESSION_CART) ?
-             Session::get(self::SESSION_CART)
-             : [];*/
+        $product = Product::find($id);
+
 
         $cart = isset($_SESSION[self::SESSION_CART])
             ? $_SESSION[self::SESSION_CART] : [];
 
-        /*        $cart = [
-                    id=>[
-                        'id' => $product->id,
-                        'name' => $product->name,
-                        'price' => $product->price,
-                        'quantity' => 1,
-                        'variantValues' => $request->variantValues
-                    ],
-                    [
-                        'id' => $product->id,
-                        'name' => $product->name,
-                        'price' => $product->price,
-                        'quantity' => 1,
-                        'variantValues' => $request->variantValues
-                    ]
-                ];*/
-
         $cartCollect = collect($cart);
 
-        //dd($cart);
-        //tìm kiếm một sản phẩm trong giỏ hàng mà có id = id truyền lên
-        $cartItem = $cartCollect->first(function ($item) use ($id) {
-            return $item['id'] == $id;
-        });
+
+        if ($variantInfos) {
+            $simpleVariantInfos = $this->makeVariantInfosSimple($variantInfos);
+        }
+        $cartItem = false;
+        //dd($request->variant_infos);
+        if ($request->variant_infos) {
+            $cartItem = $cartCollect->first(function ($item) use ($id, $simpleVariantInfos) {
+                $simpleVariantInfosInCart = $this->makeVariantInfosSimple($item['variantInfos']);
+                return $item['id'] == $id && count(array_diff_assoc($simpleVariantInfosInCart,
+                        $simpleVariantInfos)) == 0;
+            });
+        } else {
+            $cartItem = $cartCollect->first(function ($item) use ($id) {
+                return $item['id'] == $id;
+            });
+        }
         if ($cartItem) {
             //đã tồn tại sp trong giỏ hàng
             //tăng số lượng lên 1
@@ -77,6 +74,7 @@ class CartController extends Controller
                 'name' => $product->name,
                 'price' => $product->price,
                 'quantity' => $quantity,
+                'variantInfos' => $variantInfos
                 //'variantValues' => $request->variantValues
             ]);
         }
@@ -86,6 +84,17 @@ class CartController extends Controller
         $_SESSION[self::SESSION_CART] = $cart;
         return response()->json(['cart' => $cart], 200);
     }
+
+    private function makeVariantInfosSimple($variantInfos)
+    {
+
+        $data = [];
+        foreach ($variantInfos as $variantInfo) {
+            $data[$variantInfo[0]['variant_id']] = $variantInfo[0]['variant_value_id'];
+        }
+        return $data;
+    }
+
 
     public function removeFromCart()
     {
@@ -136,12 +145,21 @@ class CartController extends Controller
     public function deleteItem(Request $request)
     {
         $deleteItem = $request->id;
+        $variantInfos = $request->variantInfos;
         $cart = isset($_SESSION[self::SESSION_CART])
             ? $_SESSION[self::SESSION_CART] : [];
         $cartCollection = collect($cart);
-        $cart = $cartCollection->filter(function ($item) use ($deleteItem) {
-            if ($item['id'] != $deleteItem) {
-                return $item;
+        $cart = $cartCollection->filter(function ($item) use ($deleteItem, $variantInfos) {
+            if ($variantInfos) {
+                if ($item['id'] != $deleteItem || count(array_diff_assoc(
+                        $this->makeVariantInfosSimple($variantInfos)
+                        , $this->makeVariantInfosSimple($item['variantInfos']))) != 0) {
+                    return $item;
+                }
+            } else {
+                if ($item['id'] != $deleteItem) {
+                    return $item;
+                }
             }
         });
         $cart = $cart->toArray();
@@ -152,16 +170,33 @@ class CartController extends Controller
     public function updateQuantity(Request $request)
     {
         $id = $request->id;
+        $variantInfos = $request->variantInfos;
         $quantity = $request->quantity;
         $cart = isset($_SESSION[self::SESSION_CART])
             ? $_SESSION[self::SESSION_CART] : [];
         $cartCollection = collect($cart);
-        $cart = $cartCollection->map(function ($item) use ($id, $quantity) {
-            if ($item['id'] == $id) {
-                if ($item['quantity'] == 1 && $quantity == -1) {
-                    return $item;
+
+        //dd($variantInfos);
+
+        $cart = $cartCollection->map(function ($item) use ($id, $quantity, $variantInfos) {
+
+            if ($variantInfos != null) {
+                if ($item['id'] == $id && count(array_diff_assoc(
+                        $this->makeVariantInfosSimple($variantInfos)
+                        , $this->makeVariantInfosSimple($item['variantInfos']))) == 0
+                ) {
+                    if ($item['quantity'] == 1 && $quantity == -1) {
+                        return $item;
+                    }
+                    $item['quantity'] = $item['quantity'] + $quantity;
                 }
-                $item['quantity'] = $item['quantity'] + $quantity;
+            } else {
+                if ($item['id'] == $id) {
+                    if ($item['quantity'] == 1 && $quantity == -1) {
+                        return $item;
+                    }
+                    $item['quantity'] = $item['quantity'] + $quantity;
+                }
             }
             return $item;
         });
@@ -170,4 +205,25 @@ class CartController extends Controller
         return response()->json(['total_items' => count($cart)], 200);
     }
 
+    public function clearCart()
+    {
+        $_SESSION[self::SESSION_CART] = [];
+        return response()->json(['total_items' => 0], 200);
+    }
+
+    /**
+     * @param $variantInfos
+     * @return array
+     */
+    public function removeVariantAssocKey($variantInfos): array
+    {
+        $variantInfos = collect($variantInfos);
+        $variantInfos = $variantInfos->groupBy('variant_id');
+        $variantInfos = $variantInfos->toArray();
+        $tmpVariantsInfo = [];
+        foreach ($variantInfos as $key => $variantInfo) {
+            $tmpVariantsInfo[] = $variantInfo;
+        }
+        return $tmpVariantsInfo;
+    }
 }

@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class AlterVariantsAddSoftDelete extends Migration
+class AlterUsersAddLevelColumn extends Migration
 {
     /**
      * Run the migrations.
@@ -14,8 +14,10 @@ class AlterVariantsAddSoftDelete extends Migration
     public function up()
     {
         //
-        Schema::table('variants', function (Blueprint $table) {
-            $table->softDeletes();
+
+        Schema::table('users', function (Blueprint $table) {
+            $table->string('level')->default('user');
+            //user-admin
         });
     }
 
@@ -27,8 +29,8 @@ class AlterVariantsAddSoftDelete extends Migration
     public function down()
     {
         //
-        Schema::table('variants', function (Blueprint $table) {
-            $table->dropSoftDeletes();
+        Schema::table('users', function (Blueprint $table) {
+            $table->dropColumn('level');
         });
     }
 }

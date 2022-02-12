@@ -5,9 +5,9 @@
             <img src="{{asset('fe/img/logo.png')}}" width="160" class="mx-left"/>
             <hr class="border-1 border-white">
             <ul class="space-y-5">
-                <li>Address: Quang Ninh - VietNam</li>
-                <li>Phone: 023928379</li>
-                <li>Fax: 0181092812</li>
+                <li>Address: Hai Phong - VietNam</li>
+                <li>Phone: 0368888888</li>
+                <li>Fax: 0999986868</li>
             </ul>
         </div>
 

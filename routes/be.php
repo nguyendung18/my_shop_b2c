@@ -3,7 +3,7 @@
 use Illuminate\Support\Facades\Route;
 
 //admin/user/add
-Route::prefix('/admin')->group(function () {
+Route::middleware('admin')->prefix('/admin')->group(function () {
     Route::prefix('/user')->group(function () {
         Route::get('/list', [\App\Http\Controllers\Admin\UserController::class, 'index'])->name('admin.user.list');
         Route::get('/add',
@@ -94,4 +94,26 @@ Route::prefix('/admin')->group(function () {
             ->name('admin.brand.delete');
     });
 
+    Route::prefix('/order')->group(function () {
+        Route::get('/list', [\App\Http\Controllers\Admin\OrderController::class,
+            'filter'])->name('admin.order.list');
+        Route::get('/detail/{id}', [\App\Http\Controllers\Admin\OrderController::class,
+            'detail'])->name('admin.order.detail');
+        Route::get('/change-status/{id}/{status}', [\App\Http\Controllers\Admin\OrderController::class, 'changeStatus',
+        ])->name('admin.order.change-status');
+    });
+
+
 });
+Route::get('/admin/login',
+    [\App\Http\Controllers\Admin\AdminController::class,
+        'login'])->name('admin.login');
+
+Route::post('/admin/doLogin',
+    [\App\Http\Controllers\Admin\AdminController::class,
+        'doLogin'])->name('admin.do-login');
+
+Route::get('admin/logout', function () {
+    Auth::logout();//huỷ session
+    return redirect()->route('admin.login');
+})->name('admin.logout');

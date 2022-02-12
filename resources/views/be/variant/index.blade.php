@@ -23,9 +23,12 @@
                                 <td>{{$item->id}}</td>
                                 <td>{{$item->name}}</td>
                                 <td>
+                                    @if($item->variantValues)
                                     @foreach($item->variantValues as $variantValue)
                                         <span class="badge badge-primary">{{$variantValue->value}}</span>
                                     @endforeach
+                                    @endif
+
                                 </td>
                                 <td>
                                     <a class="btn btn-warning"
