@@ -41,7 +41,7 @@ class ProductController extends Controller implements ICrud
         $price = $request->price;
         $brandId = $request->brand_id ?? 0;
         $discountType = $request->discount_type;
-        $discountAmount = $request->discount_amount;
+       // $discountAmount = $request->discount_amount;
         $metaKeyword = $request->meta_keyword;
         $metaContent = $request->meta_content;
         $metaDescription = $request->meta_description;
@@ -53,7 +53,7 @@ class ProductController extends Controller implements ICrud
                 'content' => htmlentities($content),
                 'price' => $price,
                 'brand_id' => $brandId,
-                'discount_amount' => $discountAmount,
+               // 'discount_amount' => $discountAmount,
                 'discount_type' => $discountType,
                 'meta_keyword' => $metaKeyword,
                 'meta_description' => $metaDescription,
@@ -149,7 +149,7 @@ class ProductController extends Controller implements ICrud
         $metaContent = $request->meta_content;
         $metaDescription = $request->meta_description;
         $shortDescription = $request->short_description;
-        $discountAmout = $request->discount_amount;
+        //$discountAmout = $request->discount_amount;
 
         try {
             Product::where('id', $id)->update([
@@ -157,7 +157,7 @@ class ProductController extends Controller implements ICrud
                 'content' => htmlentities($content),
                 'price' => $price,
                 'brand_id' => $brandId,
-                'discount_amount' => $discountAmout,
+               // 'discount_amount' => $discountAmout,
                 'discount_type' => $discountType,
                 'meta_keyword' => $metaKeyword,
                 'meta_description' => $metaDescription,

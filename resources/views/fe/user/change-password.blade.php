@@ -11,7 +11,7 @@
         </div>
 
         <div>
-            <form>
+            <form method="post" action="">
                 <input type="text" placeholder="Old Password">
                 <input type="text" placeholder="New Password">
                 <button>Submit</button>

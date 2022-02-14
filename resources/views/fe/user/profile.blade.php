@@ -5,8 +5,8 @@
             <ul>
                 <li><a href="">Profile</a></li>
                 <li><a href="">Change Password</a></li>
-                <li><a href="">My Order</a></li>
-                <li><a href="">Logout</a></li>
+                <li><a href="{{route('fe.user.my-orders')}}">My Order</a></li>
+                <li><a href="{{route('admin.logout')}}">Logout</a></li>
             </ul>
         </div>
 

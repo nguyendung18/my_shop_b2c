@@ -14,6 +14,7 @@ class AuthedUserController extends Controller
 
     public function changePassword()
     {
+
         return view('fe.user.change-password');
     }
 
